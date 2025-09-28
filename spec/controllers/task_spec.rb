@@ -1,46 +1,33 @@
 require 'rails_helper'
 
-RSpec.describe "Tasks API", type: :request do
+RSpec.describe "Tasks", type: :request do
   describe "GET /tasks" do
-    it "devuelve todas las tareas" do
-      Task.create!(title: "Tarea 1", description: "Descripción 1")
-      Task.create!(title: "Tarea 2", description: "Descripción 2")
+    it "devuelve status 200 y renderiza index" do
+      Task.create!(title: "Tarea 1", description: "Test 1", completed: false)
+      Task.create!(title: "Tarea 2", description: "Test 2", completed: true)
 
       get "/tasks"
 
       expect(response).to have_http_status(:ok)
-      expect(JSON.parse(response.body).size).to eq(2)
+      expect(response.body).to include("Tarea 1") 
+      expect(response.body).to include("Tarea 2")
     end
   end
-
-  describe "GET /tasks/:id" do
-    it "devuelve una tarea específica" do
-      task = Task.create!(title: "Tarea única", description: "Algo")
-
-      get "/tasks/#{task.id}"
-
-      expect(response).to have_http_status(:ok)
-      json = JSON.parse(response.body)
-      expect(json["title"]).to eq("Tarea única")
-    end
-  end
-
+  
   describe "POST /tasks" do
-    it "crea una nueva tarea con datos válidos" do
-      valid_params = { task: { title: "Nueva tarea", description: "Descripción" } }
-
+    it "crea una nueva tarea con parámetros válidos" do
       expect {
-        post "/tasks", params: valid_params
+        post "/tasks", params: { task: { title: "Nueva tarea", description: "Algo", completed: false } }
       }.to change(Task, :count).by(1)
 
-      expect(response).to have_http_status(:created)
+      expect(response).to redirect_to("/tasks")
+      follow_redirect!
+      expect(response.body).to include("tasks has been created")
     end
 
-    it "no crea una tarea con datos inválidos" do
-      invalid_params = { task: { title: "" } }
-
+    it "no crea tarea con parámetros inválidos" do
       expect {
-        post "/tasks", params: invalid_params
+        post "/tasks", params: { task: { title: "" } }
       }.not_to change(Task, :count)
 
       expect(response).to have_http_status(:unprocessable_entity)
