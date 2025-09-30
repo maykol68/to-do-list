@@ -1,0 +1,10 @@
+<div class="">
+  <h1 class="text-2xl">Tasks</h1>
+  <div class="card grid grid-flow-col justify-items-center">
+    <% @tasks.each do |task| %>
+    <p><%= notice %></p>
+    <h2 class=""><%= task.title %></h2>
+    <h3 class=""><%= task.description %></h3>
+    <% end %>
+  </div>
+</div>
