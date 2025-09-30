@@ -1,10 +1,32 @@
-<div class="">
-  <h1 class="text-2xl">Tasks</h1>
-  <div class="card grid grid-flow-col justify-items-center">
-    <% @tasks.each do |task| %>
-    <p><%= notice %></p>
-    <h2 class=""><%= task.title %></h2>
-    <h3 class=""><%= task.description %></h3>
-    <% end %>
+<h1 class="text-2xl font-bold mb-4">Tasks</h1>
+
+<div class="grid gap-4">
+  <% @tasks.each do |task| %>
+  <div class="p-4 bg-white shadow rounded">
+    <h2 class="text-xl font-semibold">
+      <%= link_to task.title, task_path(task), class: "text-blue-600
+      hover:underline" %>
+    </h2>
+    <p><%= task.description %></p>
+    <p class="mt-2">
+      Estado: <% if task.completed %>
+      <span class="text-green-600 font-semibold">✅ Completada</span>
+      <% else %>
+      <span class="text-yellow-600 font-semibold">⏳ Pendiente</span>
+      <% end %>
+    </p>
+
+    <div class="mt-2 flex gap-2">
+      <%= link_to "Edit", edit_task_path(task), class: "px-2 py-1 bg-yellow-500
+      text-white rounded" %> <%= link_to "Delete", task_path(task), data: {
+      turbo_method: :delete, turbo_confirm: "¿Estás seguro?" }, class: "px-2
+      py-1 bg-red-500 text-white rounded" %>
+    </div>
   </div>
+  <% end %>
+</div>
+
+<div class="mt-4">
+  <%= link_to "Nueva Tarea", new_task_path, class: "px-4 py-2 bg-blue-600
+  text-white rounded" %>
 </div>
