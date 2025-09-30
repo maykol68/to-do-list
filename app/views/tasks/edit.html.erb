@@ -1,0 +1,22 @@
+<h1 class="text-2xl font-bold mb-4">Editar Tarea</h1>
+
+<%= form_with model: @task, local: true, class: "space-y-4" do |f| %>
+  <div>
+    <%= f.label :title, class: "block font-medium" %>
+    <%= f.text_field :title, class: "w-full border rounded p-2" %>
+  </div>
+
+  <div>
+    <%= f.label :description, class: "block font-medium" %>
+    <%= f.text_area :description, class: "w-full border rounded p-2" %>
+  </div>
+
+  <div>
+    <%= f.label :completed, class: "block font-medium" %>
+    <%= f.check_box :completed %>
+  </div>
+
+  <div>
+    <%= f.submit "Actualizar", class: "bg-blue-500 text-white px-4 py-2 rounded" %>
+  </div>
+<% end %>
