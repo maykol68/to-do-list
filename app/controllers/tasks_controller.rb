@@ -2,7 +2,13 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index
-    @tasks = Task.all
+    if params[:filter] == "completed"
+      @tasks = Task.where(completed: true)
+    elsif params[:filter] == "pending"
+      @tasks = Task.where(completed: false)
+    else
+      @tasks = Task.all
+    end
   end
 
   def show
