@@ -1,5 +1,10 @@
 <h1 class="text-2xl font-bold mb-4">Tasks</h1>
 
+<div class="mt-4">
+  <%= link_to "Nueva Tarea", new_task_path, class: "px-4 py-2 bg-blue-600
+  text-white rounded" %>
+</div>
+
 <div class="grid gap-4">
   <% @tasks.each do |task| %>
   <div class="p-4 bg-white shadow rounded">
@@ -15,6 +20,7 @@
       <span class="text-yellow-600 font-semibold">⏳ Pendiente</span>
       <% end %>
     </p>
+    <p><%= task.due_date%></p>
 
     <div class="mt-2 flex gap-2">
       <%= link_to "Edit", edit_task_path(task), class: "px-2 py-1 bg-yellow-500
@@ -24,9 +30,4 @@
     </div>
   </div>
   <% end %>
-</div>
-
-<div class="mt-4">
-  <%= link_to "Nueva Tarea", new_task_path, class: "px-4 py-2 bg-blue-600
-  text-white rounded" %>
 </div>
