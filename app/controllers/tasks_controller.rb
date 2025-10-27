@@ -9,6 +9,11 @@ class TasksController < ApplicationController
     else
       @tasks = Task.all
     end
+
+    if  params[:search].present? 
+        query = "%#{params[:search]}%"
+        @tasks = @tasks.where("title LIKE ? OR description LIKE ?", query, query)
+    end
   end
 
   def show
